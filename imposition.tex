@@ -1,0 +1,8 @@
+% Turns an A5 PDF into an A4 PDF that's imposed for duplex printing. Use the "flip on long side" option when printing.
+
+\documentclass{scrartcl}
+\usepackage{pdfpages}
+\begin{document}
+% The signature size needs to be a multiple of 4
+\includepdf[pages=-,signature=8,landscape]{output/main.pdf}
+\end{document}

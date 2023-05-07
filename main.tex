@@ -1,0 +1,107 @@
+\documentclass[letterpaper,showtrims,openright,onesided,12pt]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{pgfornament}
+\graphicspath{images/}
+\usepackage{subfiles}
+\usepackage{blindtext}
+\usepackage{ursaline}
+
+% see memoir docs for deets -- https://mirror2.sandyriver.net/pub/ctan/macros/latex/contrib/memoir/memman.pdf
+% stock = the size of paper will be printed on
+% trimmed = what the paper will be trimmed down to
+% To be printed on A5 paper (actually A4 paper, but that's dealt with later, during the print imposition)
+\setstocksize{210mm}{148.5mm}
+% The actual page size, here with a 4:3 ratio
+\settrimmedsize{193mm}{145mm}{*}
+% Trim 17 mm from the top and 3.5 mm from the fore-edge after printing:
+\settrims{17mm}{3.5mm}
+
+% Uncomment this to preview the book wihtout the trims to see what the final results will look like:
+% \setstocksize{193mm}{145mm}
+% \settrimmedsize{193mm}{145mm}{*}
+% \settrims{0mm}{0mm}
+
+% Left/right margins:
+\setlrmarginsandblock{15mm}{25mm}{*}
+% Upper/lower margins:
+\setulmarginsandblock{15mm}{30mm}{*}
+\checkandfixthelayout{}
+\OnehalfSpacing{}
+
+\title{Test Template}
+\author{Test mcTestFace}
+\date{}
+
+\pagestyle{simple}
+\chapterstyle{dowding}
+\renewcommand\cftchapteraftersnumb{\enspace\textperiodcentered\enspace}
+\renewcommand\chapternumberlinebox[2]{#2}
+\setsecnumdepth{none}
+\begin{document}
+
+\frontmatter
+
+\begin{halftitle}
+	\textsc{Test}
+
+\end{halftitle}
+
+\begin{frontispiece}
+	\pgfornament[width=1.5cm]{9}
+\end{frontispiece}
+
+\begin{titlingpage}
+	\aliaspagestyle{titlingpage}{cleared}
+	\setlength{\droptitle}{50pt}
+	\maketitle{}
+\end{titlingpage}
+
+\begin{editionnotice}
+  \autorows{c}{2}{c}{
+    First Web Edition,16th August 2010,
+    2nd Edition, 17th April 2012,
+    3rd Edition, 14th April 2021
+  }
+
+\end{editionnotice}
+
+\begin{dedication}
+	This work was conceived as a birthday tribute to E.H. Smith, whose trilogy \emph{Marks and Scars}, \emph{Without Enchantment}, and \emph{No Great Magic} first crossed the Vorkosiverse with the Potterverse, to stunning effect.
+\end{dedication}
+
+\tableofcontents*
+
+\mainmatter{}
+
+\savepagenumber{}
+%\openleft{} % chapter title on verso page
+\thispagestyle{empty}
+
+%\chapter[A][B]{C}
+%Where "A" should be the chapter title in ToC, "B" the chapter title in the header, and C the chapter title in the main text
+%\addcontentsline{toc}{chapter}{Chapter One}
+%\chapter{Debugger}
+%\subfile{contents/var_debug}
+\chapter{Chapter One}
+\restorepagenumber{}
+\vspace*{\droptitle}
+\begin{verse}
+	\emph{What seas what shores what grey rocks and what islands\\
+		What waters lapping the shore\\
+		What memories return\\
+		Oh my daughter}
+\end{verse}
+\attrib{TS Eliot}
+\clearpage % go to recto page
+\blindtext{}
+\chapter{Chapter Two}
+\blinddocument{}
+\addcontentsline{toc}{chapter}{End Notes}
+\backmatter{}
+\chapter*{End Notes}
+\blindtext{}
+\end{document}
+
+

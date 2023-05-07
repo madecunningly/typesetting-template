@@ -1,0 +1,90 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{ursaline}[2023/05/07 typesetting syles]
+
+%%%%%%%%% BASICS %%%%%%%%%%
+
+\RequirePackage{inputenc}
+\RequirePackage{fontenc}
+\RequirePackage{graphicx}
+\RequirePackage{pgfornament}
+\RequirePackage{subfiles}
+% if xetex
+%\RequirePackage{polyglossia}
+\RequirePackage[english]{babel}
+
+\let\LanguageShortHands\languageshorthands{}
+\def\languageshorthands#1{}
+\newcommand{\textfrench}[2][]{\foreignlanguage{french}{#2}}
+\newenvironment{french}[2][]{\begin{otherlanguage}{french}}{\end{otherlanguage}}
+\providecommand{\textlatin}{}
+\renewcommand{\textlatin}[2][]{\foreignlanguage{latin}{#2}}
+\newenvironment{latin}[2][]{\begin{otherlanguage}{latin}}{\end{otherlanguage}}
+
+\newcommand{\attrib}[1]{%
+	\nopagebreak{\raggedleft\footnotesize #1\par}}
+
+%---ENV---%
+
+\newenvironment{halftitle}
+{
+	\thispagestyle{cleared}
+	%begin_def
+	\begin{vplace}[0.3]
+
+		\begin{center}
+			}
+			{
+		\end{center}
+	\end{vplace}
+	\clearpage{}
+}
+
+\newenvironment{frontispiece}
+{
+
+	\thispagestyle{cleared}
+	%begin_def
+	\begin{vplace}[2]
+
+		\begin{center}
+			}
+			{
+		\end{center}
+	\end{vplace}
+	\clearpage
+}
+
+\newenvironment{editionnotice}
+{
+	\thispagestyle{cleared}
+	\begin{vplace}
+		\begin{center}
+			\pgfornament[width=2cm]{80}
+			\vspace*{3em}
+
+			}
+			{
+		\end{center}
+	\end{vplace}
+	\clearpage
+}
+
+\newenvironment{dedication}
+{
+	\thispagestyle{cleared}
+	\begin{vplace}
+		\begin{center}
+			\begin{minipage}[c][][s]{0.75\textwidth}
+				\emph{Author's Dedication}\\*
+				\\
+				}
+				{
+			\end{minipage}
+		\end{center}
+	\end{vplace}
+	\clearpage
+}
+
+%-----------------%
+
+

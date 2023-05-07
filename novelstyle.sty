@@ -1,0 +1,205 @@
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{novelstyle}
+
+%%%%%%%%%%%%%% BASICS %%%%%%%%%%%%%%%%
+\usepackage[english]{babel}
+
+% Let punctuation protude slightly over margin boundary:
+\usepackage[protrusion=true,final,babel=true]{microtype}
+% No double-spacing after periods:
+\frenchspacing
+
+% Don't let LaTeX try to deal with orphans/widows for you (can be done better by hand, and orphans/widows often look fine if they're not preceded/followed by a section break):
+\clubpenalty=0
+\widowpenalty=0
+
+% Don't let LaTeX insert vertical space between paragraphs when the page might be a line or so short:
+\raggedbottom
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%% PAGE SET-UP %%%%%%%%%%%
+% To be printed on A5 paper (actually A4 paper, but that's dealt with later, during the print imposition)
+\setstocksize{210mm}{148.5mm}
+% The actual page size, here with a 4:3 ratio
+\settrimmedsize{193mm}{145mm}{*}
+% Trim 17 mm from the top and 3.5 mm from the fore-edge after printing:
+\settrims{17mm}{3.5mm}
+
+% Uncomment this to preview the book wihtout the trims to see what the final results will look like:
+% \setstocksize{193mm}{145mm}
+% \settrimmedsize{193mm}{145mm}{*}
+% \settrims{0mm}{0mm}
+
+% Left/right margins:
+\setlrmarginsandblock{15mm}{25mm}{*}
+% Upper/lower margins:
+\setulmarginsandblock{15mm}{30mm}{*}
+\checkandfixthelayout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%% HEADERS/FOOTERS %%%%%%%
+% Footers with the page number near the fore-edge and the date in italics
+\nouppercaseheads
+\makepagestyle{numeredpage}
+\makeevenhead{numeredpage}{}{}{}
+\makeoddhead{numeredpage}{}{}{}
+\makeevenfoot{numeredpage}{\thepage}{}{}
+\makeoddfoot{numeredpage}{}{}{\thepage}
+
+% The style used by chapter opening pages. In this case, the same as the regular style:
+\makeoddfoot{plain}{}{}{\thepage}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%% FONTS %%%%%%%%%%%%%%%%%
+\usepackage{fontspec}
+% This imports the files /fonts/ETbb-Regular.otf and /fonts/ETbb-Italic.otf
+\setmainfont{ETbb}[
+	Path=./fonts/,
+	Extension=.otf,
+	UprightFont=*-Regular,
+	ItalicFont=*-Italic,
+	Numbers=OldStyle, % Use "lowercase" digits (looks better unless you're setting math stuff or tables)
+	SmallCapsFeatures={LetterSpace=4}, % Increase the tracking between small caps letters
+]
+
+% Font sizes! The most important one is \normalsize. The first value is the font size, the second the leading.
+\renewcommand{\huge}{\fontsize{30pt}{50pt}\selectfont}
+\renewcommand{\LARGE}{\fontsize{22pt}{40pt}\selectfont}
+\renewcommand{\Large}{\fontsize{18pt}{30pt}\selectfont}
+\renewcommand{\large}{\fontsize{13pt}{18pt}\selectfont}
+\renewcommand{\normalsize}{\fontsize{11pt}{14pt}\selectfont}
+\renewcommand{\small}{\fontsize{10pt}{13pt}\selectfont}
+\renewcommand{\footnotesize}{\fontsize{8pt}{10pt}\selectfont}
+
+% For when I want text that's all small caps with no full-size uppercase letters
+\newcommand{\textpt}[1]{\textsc{\MakeLowercase{#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%% SECTION TYPES %%%%%%%%%
+% I like to define what section transitions look like, this one is just a vertical skip, but you can also add ornaments etc.
+\newcommand{\sectionsep}{\vspace{2\baselineskip}}
+
+% This one is a fun little ornaments:
+\usepackage[framemethod=tikz]{mdframed}
+\newsavebox{\myrule}
+\sbox{\myrule}{\tikz
+	{\path [draw, line width=0.2mm] (-0.06,0) to (0,0.06) to (0.06,0) to (0,-0.06) to cycle;
+		\path [draw, line width=0.2mm] (-0.8,0) to (-0.06,0);
+		\path [draw, line width=0.2mm] (0.06,0) to (0.8,0);}
+}
+\newcommand{\sectionrule}{%
+	\begin{center}
+		\vspace*{0.8mm}
+		\usebox{\myrule}
+		\vspace{0.8mm}
+	\end{center}
+}
+% For when the line above/below is super short:
+\newcommand{\sectionruleshort}{\vspace{-\baselineskip}\sectionrule}
+\newcommand{\sectionruleshortbelow}{\sectionrule\vspace{-\baselineskip}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%% CHAPTER STYLE %%%%%%%%%
+% Just a Roman numeral as the chapter title:
+\usepackage{calc}
+% https://tex.stackexchange.com/questions/524338/chapters-in-memoir-with-roman-numerals-as-title-no-name-of-chapter-names-of-ch
+\renewcommand{\thechapter}{\Roman{chapter}}
+\newif\ifchapternonum
+\makeatletter{}
+\makechapterstyle{customchapter}{
+	\setlength\beforechapskip{16pt}
+	\setlength\afterchapskip{3\baselineskip+6pt}
+	\setlength\midchapskip{0pt}
+	\renewcommand\printchaptername{}
+	\renewcommand\chapnumfont{\LARGE\centering} % \bfseries
+	\renewcommand\chaptitlefont{\normalsize}
+}
+\makeatother
+\chapterstyle{customchapter}
+\renewcommand\cftchapteraftersnum{.}
+\addtolength\cftchapternumwidth{1em}
+
+\newcommand{\customchap}[1]{
+	\cleardoublepage
+	\begin{center}
+		{\LARGE\vspace*{38.8pt}
+			#1}
+	\end{center}
+	\vspace{40.1pt}
+}
+
+\setsecheadstyle{\normalsize\raggedleft}
+\setbeforesecskip{14pt}
+\setaftersecskip{14pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%% LINE LENGTH FIXES %%%%%
+% Prefer increasing the inter-word spacing over creating overlong lines
+\setlength{\emergencystretch}{.5em}
+
+% Only use this if absolutely necessary! 
+% Changes the tracking of whatever line/paragraph it contains
+% The second arg is the change: negative to squeeze the text, positive to stretch it. Stay as close to 0 as possible!
+\newcommand{\squeeze}[2]{{\addfontfeature{LetterSpace=#2}#1}}
+
+% Minimum extra line length before the compiler starts complaining
+\hfuzz=2.7pt
+% Ways to fix line breaks:
+% - \\
+% - \allowbreak{}
+% - \- (inserts hyphen if LaTeX breaks the line)
+% - \mbox{ ... } (no break!)
+% - ~ (non-breaking space)
+
+% Use these when custom hyphenation doesn't do the trick.
+% They stretch the whitespace in otherwise too short lines
+% (include up to the word before the one that's overlong).
+% This first one is just the utility one called by the others:
+\newcommand{\spreadline}[4]{%
+	\makebox[\dimexpr#2-#3+#4][s]{#1}%
+}
+\newcommand{\spreadlineparnobr}[1]{%
+	\spreadline{#1}{\textwidth}{\parindent}{0pt}%
+}
+% Spreads an indented line:
+\newcommand{\spreadlinepar}[1]{%
+	\spreadlineparnobr{#1}\\%
+}
+\newcommand{\spreadlineparnobrhyph}[1]{%
+	\spreadline{#1}{\textwidth}{\parindent}{1pt}%
+}
+% Spreads an indented line ending with a hyphen:
+\newcommand{\spreadlineparhyph}[1]{%
+	\spreadlineparnobrhyph{#1}\\%
+}
+\newcommand{\spreadlinemidnobr}[1]{%
+	\spreadline{#1}{\textwidth}{0pt}{0pt}%
+}
+% Spreads a line in the middle of a paragraph:
+\newcommand{\spreadlinemid}[1]{%
+	\spreadlinemidnobr{#1}\\%
+}
+\newcommand{\spreadlinemidnobrhyph}[1]{%
+	\spreadline{#1}{\textwidth}{0pt}{1pt}%
+}
+% Spreads a line in the middle of a paragraph ending with a hyphen:
+\newcommand{\spreadlinemidhyph}[1]{%
+	\spreadlinemidnobrhyph{#1}\\%
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%% DIVISIONS %%%%%%%%%%%%%
+\newcommand{\startmainmatter}[1][7]{
+	\mainmatter
+	\pagestyle{numeredpage}
+	\setcounter{page}{#1}
+}
+
+\newcommand{\startappendix}{
+	\cleardoublepage
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\endinput
+
+
